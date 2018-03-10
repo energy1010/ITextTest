@@ -1,0 +1,390 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.younger</groupId>
+	<artifactId>ITextTest</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>ITextTest</name>
+	<description>ITextTest</description>
+	<packaging>jar</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<nexus.server.ip>192.168.1.130</nexus.server.ip>
+		<jdk.version>1.8</jdk.version>
+		<!-- <project.svn.scm.url>http://your_host/SvnRepo</project.svn.scm.url> 
+			<project.svn.maven.repository>http://your_host/MavenRepo</project.svn.maven.repository> -->
+	</properties>
+
+	<!-- 自定义jar文件名 -->
+	<!-- <finalName>${artifactId}-${version}-final</finalName> -->
+
+
+	<!-- maven svn -->
+	<!-- <scm> <url>${project.svn.scm.url}</url> <connection>scm:svn:${project.svn.scm.url}/${project.artifactId}/trunk</connection> 
+		<developerConnection>scm:svn:${project.svn.scm.url}/${project.artifactId}/trunk</developerConnection> 
+		connection, developerConnection: 都是连接字符串，其中后者是具有write权限的scm连接 <connection>scm:svn:http://10.123.76.115:8080/svn/bravo2/03 
+		开发区/04 源代码/tags/bravo-2.0</connection> <developerConnection>scm:svn:http://10.123.76.115:8080/svn/bravo2/03 
+		开发区/04 源代码/tags/bravo-2.0</developerConnection> </scm> -->
+
+
+	<!-- 项目依赖 -->
+	<dependencies>
+		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+			<version>1.2.17</version> </dependency> -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>itext</groupId>
+			<artifactId>itext-xtra</artifactId>
+			<version>1.1.1</version>
+			<scope>system</scope>
+			<!-- 本地jar的路径,相对或者绝对都可以 -->
+			<systemPath>${basedir}/lib/itext-xtra-5.5.3.jar</systemPath>
+		</dependency>
+
+		<!-- pdf加密 -->
+		<dependency>
+			<groupId>itext</groupId>
+			<artifactId>itext-bcprov</artifactId>
+			<version>1.1.1</version>
+			<scope>system</scope>
+			<!-- 本地jar的路径,相对或者绝对都可以 -->
+			<systemPath>${basedir}/lib/bcprov-jdk15on-147.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>itext</groupId>
+			<artifactId>itextAsian</artifactId>
+			<version>1.1.1</version>
+			<scope>system</scope>
+			<!-- 本地jar的路径,相对或者绝对都可以 -->
+			<systemPath>${basedir}/lib/iTextAsian.jar</systemPath>
+		</dependency>
+
+
+		<dependency>
+			<groupId>itext</groupId>
+			<artifactId>itextAsianCmaps</artifactId>
+			<version>1.1.1</version>
+			<scope>system</scope>
+			<!-- 本地jar的路径,相对或者绝对都可以 -->
+			<systemPath>${basedir}/lib/iTextAsianCmaps.jar</systemPath>
+		</dependency>
+
+		<dependency>
+			<groupId>itext</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.3</version>
+			<scope>system</scope>
+			<!-- 本地jar的路径,相对或者绝对都可以 -->
+			<systemPath>${basedir}/lib/iTextpdf-5.5.3.jar</systemPath>
+		</dependency>
+		<!-- <systemPath>${project.basedir}/lib/*.jar</systemPath> -->
+
+
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+	</dependencies>
+
+
+
+
+	<build>
+		<resources>
+			<!-- 打包第三方依赖的jar包 -->
+			<resource>
+				<directory>${basedir}/lib</directory>
+				<targetPath>${basedir}/target/classes/lib</targetPath>
+				<includes>
+					<include>**/*.jar</include>
+				</includes>
+			</resource>
+
+			<!-- 打包资源文件到jar包 -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${basedir}/target</targetPath>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.xml</exclude>
+				</excludes>
+				<filtering>false</filtering>
+			</resource>
+
+			<!-- 打包源码到jar包 -->
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<!-- <include>**/*.java</include> -->
+					<include>**/*.java</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+
+
+
+		</resources>
+
+
+
+		<plugins>
+			<!-- Compiler 插件, 设定JDK版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- <version>2.3.2</version> -->
+				<configuration>
+					<!-- <source>1.7</source> <target>1.7</target> -->
+					<encoding>utf-8</encoding>
+					<!-- <compilerArguments> <extdirs>${project.basedir}/lib/</extdirs> 
+						</compilerArguments> -->
+				</configuration>
+			</plugin>
+
+			<!-- 同时发布项目源码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<!-- <version>2.2.1</version> -->
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<!-- verify阶段添加source源码 -->
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
+				<version>2.9</version> <executions> <execution> <id>attach-javadocs</id> 
+				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>2.0</version> <configuration> <transformers> <transformer implementation 
+				= "org.apache.maven.plugins.shade.resource.MainifestResourceTransformer"> 
+				<mainClass>PdfBookmarkerApp</mainClass> </transformer> </transformers> </configuration> 
+				<executions> <execution> <phase>package</phase> <goals> <goal>shade</goal> 
+				</goals> </execution> </executions> </plugin> -->
+
+
+			<!-- 配置资源处理插件 -->
+			<!-- <plugin> <artifactId>maven-resources-plugin</artifactId> <version>2.5</version> 
+				<executions> <execution> <id>copy-xmls</id> <phase>process-sources</phase> 
+				<goals> <goal>copy-resources</goal> </goals> <configuration> <encoding>utf-8</encoding> 
+				<outputDirectory>${basedir}/target/classes</outputDirectory> <resources> 
+				<resource> <directory>${basedir}/src/main/java</directory> <directory>${basedir}/lib</directory> 
+				<includes> <include>**/*.jar</include> <include>**/*.xml</include> </includes> 
+				</resource> </resources> </configuration> </execution> </executions> </plugin> -->
+
+			<!-- 打包时文件相关的配置 -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
+				<version>2.4</version> <configuration> <excludes> <exclude>*.properties</exclude> 
+				</excludes> <archive> 打包可执行jar <manifest> 是否要把第三方jar放到manifest的classpath中 
+				<addClasspath>true/</addClasspath> 生成的manifest中classpath的前缀，因为要把第三方jar放到lib目录下，所以classpath的前缀是lib/ 
+				<classpathPrefix>lib/</classpathPrefix> <addClasspath>true</addClasspath> 
+				<mainClass>com.younger.CreateOutlineFrame</mainClass> </manifest> <manifestEntries> 
+				第三方jar加入mainifest <Class-Path>. lib/itext-pdfa-5.5.3.jar lib/itext-xtra-5.5.3.jar 
+				lib/iTextAsian.jar lib/iTextAsianCmaps.jar lib/itextpdf-5.5.3.jar</Class-Path> 
+				</manifestEntries> </archive> 过滤掉不希望包含在jar中的文件 <excludes> <exclude>${project.basedir}/xml/*</exclude> 
+				</excludes> <finalName></finalName> </configuration> </plugin> -->
+
+
+			<!-- 为了生成copy依赖的jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+
+				<executions>
+					<execution>
+						<!-- 解压第三方依赖的jar包到classses目录进行打包到jar -->
+						<id>unpack-dependencies</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<configuration>
+							<includes>**/*.class</includes>
+							<excludes>**/*.properties</excludes>
+							<!-- 将第三方jar解压到classes目录， 方便打包可执行jar -->
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<configuration>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<!-- 当前工程的target目录。lib文件夹下会放置所有依赖的jar包 -->
+							<outputDirectory> ${project.build.directory}/lib </outputDirectory>
+						</configuration>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+					</execution>
+
+				</executions>
+			</plugin>
+
+
+			<!-- <execution> <id></id> <phase>generate-resources</phase> <goals> <goal>unpack-dependencies</goal> 
+				</goals> <configuration> <artifactItems> <artifactItem> <groupId>itext</groupId> 
+				<artifactId>itext-xtra</artifactId> <type>jar</type> <overWrite>true</overWrite> 
+				<outputDirectory>${basedir}/target/classes</outputDirectory> <includes>**/*.class,**/*.xml</includes> 
+				</artifactItem> <artifactItem> <groupId>itext</groupId> <artifactId>itextAsian</artifactId> 
+				<type>jar</type> <overWrite>true</overWrite> <outputDirectory>${basedir}/target/classes</outputDirectory> 
+				<includes>**/*.class,**/*.xml</includes> </artifactItem> <artifactItem> <groupId>itext</groupId> 
+				<artifactId>itext-bcprov</artifactId> <type>jar</type> <overWrite>true</overWrite> 
+				<outputDirectory>${basedir}/target/classes</outputDirectory> <includes>**/*.class,**/*.xml</includes> 
+				</artifactItem> <artifactItem> <groupId>itext</groupId> <artifactId>itext-bcprov</artifactId> 
+				<type>jar</type> <overWrite>true</overWrite> <outputDirectory>${basedir}/target/classes</outputDirectory> 
+				<includes>**/*.class,**/*.xml</includes> </artifactItem> <artifactItem> <groupId>itext</groupId> 
+				<artifactId>itextAsianCmaps</artifactId> <type>jar</type> <overWrite>true</overWrite> 
+				<outputDirectory>${basedir}/target/classes</outputDirectory> <includes>**/*.class,**/*.xml</includes> 
+				</artifactItem> <artifactItem> <groupId>itext</groupId> <artifactId>itextpdf</artifactId> 
+				<type>jar</type> <overWrite>true</overWrite> <outputDirectory>${basedir}/target/classes</outputDirectory> 
+				<includes>**/*.class,**/*.xml</includes> </artifactItem> </artifactItems> 
+				</configuration> </execution> -->
+
+
+			<!-- <execution> <id>copy-dependencies</id> <phase>package</phase> <configuration> 
+				<overWriteReleases>false</overWriteReleases> <overWriteSnapshots>false</overWriteSnapshots> 
+				<overWriteIfNewer>true</overWriteIfNewer> 当前工程的target目录。lib文件夹下会放置所有依赖的jar包 
+				<outputDirectory> ${project.build.directory}/lib </outputDirectory> </configuration> 
+				<goals> <goal>copy-dependencies</goal> </goals> </execution> -->
+
+
+			<!-- <execution> <id>unpack-dependencies</id> <phase>generate-resources</phase> 
+				<goals> <goal>unpack-dependencies</goal> </goals> <configuration> <includes>**/*.class</includes> 
+				<excludes>**/*.properties</excludes> 将第三方jar解压到classes目录， 方便打包可执行jar <outputDirectory>${project.build.directory}/classes</outputDirectory> 
+				<overWriteReleases>false</overWriteReleases> <overWriteSnapshots>true</overWriteSnapshots> 
+				</configuration> </execution> -->
+
+			<!-- ant插件 -->
+			<!-- 调用ant脚本即build.xml文件执行 -->
+			<!-- <ant antfile="${basedir}/build.xml"/> -->
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-antrun-plugin</artifactId> 
+				<configuration> <target> <echo message="haha,i can do ant job within maven!"/> 
+				</target> </configuration> </plugin> -->
+
+
+			<!-- 打包可执行jar 包含第三方lib -->
+			<plugin>
+				<artifactId> maven-assembly-plugin </artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<!--change addClasspath to true if daks is desktop version -->
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>com.younger.App</mainClass>
+						</manifest>
+
+						<!-- 用maven在MANIFEST.MF文件中的Class-Path中增加当前目录(.) -->
+						<manifestEntries>
+
+							<!-- 第三方jar加入mainifest -->
+							<Class-Path>. lib/bcprov-jdk15on-147.jar lib/itext-pdfa-5.5.3.jar
+								lib/itext-xtra-5.5.3.jar lib/iTextAsian.jar
+								lib/iTextAsianCmaps.jar lib/itextpdf-5.5.3.jar</Class-Path>
+						</manifestEntries>
+					</archive>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<!-- 配置maven repository 指向私服 仅对当前pom 有效 直接通过编辑maven setting.xml -->
+	<!-- <repositories> <repository> <id>local-nexus</id> <url>http://192.168.1.130:8081/nexus/content/group/public</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>true</enabled> 
+		</snapshots> </repository> </repositories> 插件库 指向私服 <pluginRepositories> 
+		<pluginRepository> <id>local-nexus</id> <url>http://192.168.1.130:8081/nexus/content/group/public</url> 
+		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>true</enabled> 
+		</snapshots> </pluginRepository> </pluginRepositories> -->
+
+
+
+
+	<!-- <distributionManagement> 使用maven部署构件至nexus私服 <repository> <id>nexus-releases</id> 
+		<name>Nexus Release Repository</name> <url>http://${nexus.server.ip}:8081/nexus/content/repositories/releases/</url> 
+		</repository> <snapshotRepository> <id>nexus-snapshots</id> <name>Nexus Snapshot 
+		Repository</name> <url>http://${nexus.server.ip}:8081/nexus/content/repositories/snapshots/</url> 
+		</snapshotRepository> </distributionManagement> -->
+
+
+	<developers>
+		<developer>
+			<email>857659628@qq.com</email>
+			<name>yyy</name>
+		</developer>
+	</developers>
+
+
+	<!-- 使用-P参数显示的激活一个profile -->
+	<profiles>
+		<profile>
+			<properties>
+				<downloadSources>true</downloadSources>
+				<downloadJavadocs>true</downloadJavadocs>
+			</properties>
+
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<!-- 在提供了系统属性hello，并且其值为world的时候激活 mvn package –Dhello=world -->
+				<!-- <property> <name>hello</name> <value>world</value></property> -->
+			</activation>
+
+		</profile>
+	</profiles>
+
+</project>

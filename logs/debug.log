@@ -1,0 +1,14 @@
+2018-03-10 08:14:38,474 [main] DEBUG [com.younger.App] - args: []
+2018-03-10 08:15:02,825 [main] DEBUG [com.younger.App] - args: [-bt, bk_python开发技术详解]
+2018-03-10 08:15:02,831 [main] INFO  [com.younger.App] - generateBookmarkTemplate: bk_python开发技术详解
+2018-03-10 08:15:02,865 [main] INFO  [com.younger.BookmarkHelper] - generateBookmarkTemplate :bk_python开发技术详解.txt
+2018-03-10 08:44:21,436 [main] DEBUG [com.younger.App] - args: [-pt, a, b, bk_python开发技术详解]
+2018-03-10 08:44:21,441 [main] INFO  [com.younger.App] - print Bookmark tree generate from bookmark file: bk_python开发技术详解
+2018-03-10 08:44:21,446 [main] DEBUG [com.younger.BookmarkHelper] - pageOffset=22
+2018-03-10 08:45:29,671 [main] DEBUG [com.younger.App] - args: [-pt, Python开发技术详解.pdf, new.pdf]
+2018-03-10 08:45:48,224 [main] DEBUG [com.younger.App] - args: [-pt, Python开发技术详解.pdf, new.pdf, bk_python开发技术详解.txt]
+2018-03-10 08:45:48,231 [main] INFO  [com.younger.App] - print Bookmark tree generate from bookmark file: bk_python开发技术详解.txt
+2018-03-10 08:45:48,239 [main] DEBUG [com.younger.BookmarkHelper] - pageOffset=22
+2018-03-10 08:45:59,731 [main] DEBUG [com.younger.App] - args: [Python开发技术详解.pdf, new.pdf, bk_python开发技术详解.txt]
+2018-03-10 08:45:59,738 [main] INFO  [com.younger.App] - run with cmd mode
+2018-03-10 08:45:59,743 [main] DEBUG [com.younger.BookmarkHelper] - pageOffset=22
